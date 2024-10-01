@@ -170,7 +170,7 @@ void raytrace(Camera* &cam, Shader* &shader, Film* &film,
             Vector3D pixelColor = Vector3D(0.0);
 
             // Compute ray color according to the used shader
-            pixelColor += shader->computeColor(cameraRay, *objectsList, *lightSourceList);
+            pixelColor = shader->computeColor(cameraRay, *objectsList, *lightSourceList);
 
             // Store the pixel color
             film->setPixelValue(col, lin, pixelColor);
@@ -198,9 +198,11 @@ void PaintImage(Film* film)
 
         for (size_t col = 0; col < resX; col++)
         { 
-            //CHANGE...()
-            Vector3D random_color = Vector3D((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX);            
-            film->setPixelValue(col,lin, random_color);
+			//CHANGED with the formula given in the task
+			// FORMULA: color = RGBColor(x/width, y/height, 0.0)
+			Vector3D random_color = Vector3D(1.0 * col / (double)resX, 1.0 * lin / (double) resY, 0.0);
+			film->setPixelValue(col, lin, random_color);
+            
            
         }
     }
