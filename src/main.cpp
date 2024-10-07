@@ -168,9 +168,7 @@ void raytrace(Camera* &cam, Shader* &shader, Film* &film,
             // Generate the camera ray
             Ray cameraRay = cam->generateRay(x, y);
             Vector3D pixelColor = Vector3D(0.0);
-
-            // Compute ray color according to the used shader
-            pixelColor = shader->computeColor(cameraRay, *objectsList, *lightSourceList);
+			pixelColor += shader->computeColor(cameraRay, *objectsList, *lightSourceList);
 
             // Store the pixel color
             film->setPixelValue(col, lin, pixelColor);
@@ -202,8 +200,6 @@ void PaintImage(Film* film)
 			// FORMULA: color = RGBColor(x/width, y/height, 0.0)
 			Vector3D random_color = Vector3D(1.0 * col / (double)resX, 1.0 * lin / (double) resY, 0.0);
 			film->setPixelValue(col, lin, random_color);
-            
-           
         }
     }
 }
@@ -221,11 +217,11 @@ int main()
 
     // Declare the shader
     Vector3D bgColor(0.0, 0.0, 0.0); // Background color (for rays which do not intersect anything)
-    Vector3D intersectionColor(1,0,0);
+    Vector3D intersectionColor(0,1,0);
     
     //First Assignment
-    Shader *shader = new IntersectionShader (intersectionColor, bgColor);
-    //Shader *depthshader = new DepthShader (intersectionColor,7.5f, bgColor);
+    Shader *intersectionShader = new IntersectionShader (intersectionColor, bgColor);
+    Shader *depthShader = new DepthShader (intersectionColor,7.5f, bgColor);
     //(... normal, whitted) ...
 
   
@@ -242,11 +238,11 @@ int main()
     //---------------------------------------------------------------------------
 
     //Paint Image ONLY TASK 1
-    PaintImage(film);
+    //PaintImage(film);
 
     // Launch some rays! TASK 2,3,...   
     auto start = high_resolution_clock::now();
-    //raytrace(cam, depthshader, film, myScene.objectsList, myScene.LightSourceList);
+    raytrace(cam, depthShader, film, myScene.objectsList, myScene.LightSourceList);
     auto stop = high_resolution_clock::now();
 
     

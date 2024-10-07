@@ -1,6 +1,6 @@
 #include "depthshader.h"
-
 #include "../core/utils.h"
+#include <iostream>
 
 DepthShader::DepthShader() :
     color(Vector3D(1, 0, 0))
@@ -10,13 +10,21 @@ DepthShader::DepthShader(Vector3D hitColor_, double maxDist_, Vector3D bgColor_)
     Shader(bgColor_), maxDist(maxDist_), color(hitColor_)
 { }
 
-Vector3D DepthShader::computeColor(const Ray &r, const std::vector<Shape*> &objList, const std::vector<LightSource*> &lsList) const
+Vector3D DepthShader::computeColor(const Ray& r, const std::vector<Shape*>& objList, const std::vector<LightSource*>& lsList) const
 {
-    //(FILL..)
+    // Initialize the color
+    Vector3D pixelColor;
 
-    //if..
+	Intersection its; //Initialize intersection to get the hit point
 
-    //else...
+    // Compute ray color according to the used shader
+    bool intersects = Utils::getClosestIntersection(r, objList, its); //Task 2
 
-    return color;
+    if (intersects) {
+		double hitDistance = its.itsPoint.length();
+        pixelColor = std::max(1 - hitDistance / maxDist, 0.0); //red pixel
+		return color * pixelColor;
+    }
+    
+    return bgColor;
 }
