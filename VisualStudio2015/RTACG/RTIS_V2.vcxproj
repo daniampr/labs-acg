@@ -165,6 +165,7 @@
     <ClCompile Include="..\..\src\materials\phong.cpp" />
     <ClCompile Include="..\..\src\shaders\depthshader.cpp" />
     <ClCompile Include="..\..\src\shaders\intersectionshader.cpp" />
+    <ClCompile Include="..\..\src\shaders\normalShader.cpp" />
     <ClCompile Include="..\..\src\shaders\shader.cpp" />
     <ClCompile Include="..\..\src\shapes\infiniteplan.cpp" />
     <ClCompile Include="..\..\src\shapes\shape.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="..\..\src\materials\phong.h" />
     <ClInclude Include="..\..\src\shaders\depthshader.h" />
     <ClInclude Include="..\..\src\shaders\intersectionshader.h" />
+    <ClInclude Include="..\..\src\shaders\normalShader.h" />
     <ClInclude Include="..\..\src\shaders\shader.h" />
     <ClInclude Include="..\..\src\shapes\infiniteplan.h" />
     <ClInclude Include="..\..\src\shapes\shape.h" />
