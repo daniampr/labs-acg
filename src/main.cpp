@@ -16,6 +16,7 @@
 
 #include "shaders/intersectionshader.h"
 #include "shaders/depthshader.h"
+#include "shaders/normalshader.h"
 
 
 #include "materials/phong.h"
@@ -217,11 +218,12 @@ int main()
 
     // Declare the shader
     Vector3D bgColor(0.0, 0.0, 0.0); // Background color (for rays which do not intersect anything)
-    Vector3D intersectionColor(0,1,0);
+    Vector3D intersectionColor(1.0,0.0,0.0);
     
     //First Assignment
     Shader *intersectionShader = new IntersectionShader (intersectionColor, bgColor);
     Shader *depthShader = new DepthShader (intersectionColor,7.5f, bgColor);
+    Shader *normalShader = new NormalShader(intersectionColor, bgColor);
     //(... normal, whitted) ...
 
   
@@ -242,7 +244,7 @@ int main()
 
     // Launch some rays! TASK 2,3,...   
     auto start = high_resolution_clock::now();
-    raytrace(cam, depthShader, film, myScene.objectsList, myScene.LightSourceList);
+    raytrace(cam, normalShader, film, myScene.objectsList, myScene.LightSourceList);
     auto stop = high_resolution_clock::now();
 
     
