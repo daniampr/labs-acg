@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "shader.h"
+#include "../core/ray.h"
 
 class WhittedIntegrator : public Shader
 {
@@ -12,9 +13,5 @@ public:
 	virtual Vector3D computeColor(const Ray& r,
 		const std::vector<Shape*>& objList,
 		const std::vector<LightSource*>& lsList) const;
-		
-
-
-
 };
 #endif

@@ -16,9 +16,8 @@ Vector3D NormalShader::computeColor(const Ray& r, const std::vector<Shape*>& obj
 
     Intersection its; //Initialize intersection to get the hit point
     
-
     // Compute ray color according to the used shader
-    bool intersects = Utils::getClosestIntersection(r, objList, its); //Task 2
+    bool intersects = Utils::getClosestIntersection(r, objList, its);
 
     if (intersects) {
         

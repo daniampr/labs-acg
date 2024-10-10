@@ -19,10 +19,8 @@ Vector3D IntersectionShader::computeColor(const Ray &r, const std::vector<Shape*
 
     if (intersects) {   
         pixelColor = Vector3D(1.0, 0.0, 0.0); //red pixel
+		return pixelColor;
     }
-	else {
-		pixelColor = Vector3D(0.0, 0.0, 0.0);
-	}
     
-    return pixelColor;
+    return bgColor;
 }
