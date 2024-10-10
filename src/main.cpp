@@ -20,9 +20,10 @@
 #include "shaders/whittedintegrator.h"
 
 
-
 #include "materials/phong.h"
 #include "materials/emissive.h"
+#include "materials/mirror.h"
+#include "materials/material.h"
 
 #include <chrono>
 
@@ -53,7 +54,7 @@ void buildSceneCornellBox(Camera*& cam, Film*& film,
     Material* cyandiffuse = new Phong(Vector3D(0.2, 0.8, 0.8), Vector3D(0, 0, 0), 100);
 
     //Task 5.3
-    //Material* mirror = new Mirror();
+    Material* mirror = new Mirror();
     //Task 5.4
     //Material* transmissive = new Transmissive(0.7);
 
@@ -87,7 +88,7 @@ void buildSceneCornellBox(Camera*& cam, Film*& film,
     sphereTransform2 = Matrix4x4::translate(Vector3D(-1.5, -offset + 3*radius, 4));
     Shape* s2 = new Sphere(radius, sphereTransform2, blueGlossy_80);
 
-    Shape* square = new Square(Vector3D(offset + 0.999, -offset-0.2, 3.0), Vector3D(0.0, 4.0, 0.0), Vector3D(0.0, 0.0, 2.0), Vector3D(-1.0, 0.0, 0.0), cyandiffuse);
+    Shape* square = new Square(Vector3D(offset + 0.999, -offset - 0.2, 3.0), Vector3D(0.0, 4.0, 0.0), Vector3D(0.0, 0.0, 2.0), Vector3D(-1.0, 0.0, 0.0), mirror);
 
     myScene.AddObject(s1);
     myScene.AddObject(s2);
@@ -207,61 +208,99 @@ void PaintImage(Film* film)
     }
 }
 
+
+void DisplayMenu() {
+    std::cout << "------------------ Menu ------------------\n";
+    std::cout << "Choose a task to execute:\n";
+    std::cout << "1. Task 1: Paint Image\n";
+    std::cout << "2. Task 2: Intersection Integrator\n";
+    std::cout << "3. Task 3: Depth Integrator\n";
+    std::cout << "4. Task 4: Normal Integrator\n";
+    std::cout << "5. Task 5: Whitted Integrator - Direct Ilumination & Mirror Material\n";
+    std::cout << "6. Exit\n";
+    std::cout << "-------------------------------------------\n";
+    std::cout << "Enter your choice (1-6): ";
+}
+
+
 int main()
 {
-    std::string separator     = "\n----------------------------------------------\n";
-    std::string separatorStar = "\n**********************************************\n";
-    std::cout << separator << "RT-ACG - Ray Tracer for \"Advanced Computer Graphics\"" << separator << std::endl;
+    while (true) {
 
-    // Create an empty film
-    Film *film;
-    film = new Film(720, 512);
+        std::string separator     = "\n----------------------------------------------\n";
+        std::string separatorStar = "\n**********************************************\n";
+        std::cout << separator << "RT-ACG - Ray Tracer for \"Advanced Computer Graphics\"" << separator << std::endl;
+
+        // Create an empty film
+        Film *film;
+        film = new Film(720, 512);
+
+        // Declare the shader params
+        Vector3D bgColor(0.0, 0.0, 0.0); // Background color (for rays which do not intersect anything)
+        Vector3D intersectionColor(1.0, 0.0, 0.0);
+
+        // Build the scene---------------------------------------------------------
+        // 
+        // Declare pointers to all the variables which describe the scene
+        Camera* cam;
+        Scene myScene;
+        Shader* shader = new IntersectionShader(intersectionColor, bgColor);
+
+        int choice; // What the user selects
+        
+        // Main menu
+        DisplayMenu();
+
+        // Get user input
+        std::cin >> choice;
+
+        switch (choice) {
+        case 1:
+            buildSceneSphere(cam, film, myScene); //Task 2,3,4;
+            PaintImage(film);  // Task 1
+            break;
+        case 2:
+            buildSceneSphere(cam, film, myScene); //Task 2,3,4
+            break;
+        case 3:
+            intersectionColor = Vector3D(0.0, 1.0, 0.0);
+            shader = new DepthShader(intersectionColor, 7.5f, bgColor);
+            buildSceneSphere(cam, film, myScene); //Task 2,3,4;
+            break;
+
+        case 4:
+            shader = new NormalShader(intersectionColor, bgColor);
+            buildSceneSphere(cam, film, myScene); //Task 2,3,4;
+            break;
+
+        case 5:
+            shader = new WhittedIntegrator(bgColor);
+            buildSceneCornellBox(cam, film, myScene); //Task 5
+            break;
+
+        case 6:
+            std::cout << "Exiting the program...\n";
+            return 0;  // Exit the loop and program
+        default:
+            std::cout << "Invalid choice. Please enter a number between 1 and 6.\n";
+        }
 
 
-    // Declare the shader
-    Vector3D bgColor(0.0, 0.0, 0.0); // Background color (for rays which do not intersect anything)
-    Vector3D intersectionColor(1.0,0.0,0.0);
-    
-    //First Assignment
-    Shader *intersectionShader = new IntersectionShader (intersectionColor, bgColor);
-    Shader *depthShader = new DepthShader (intersectionColor,7.5f, bgColor);
-    Shader *normalShader = new NormalShader(intersectionColor, bgColor);
-    Shader *whittedShader = new WhittedIntegrator(bgColor);
-
-    //(... normal, whitted) ...
-
-  
-
-    // Build the scene---------------------------------------------------------
-    // 
-    // Declare pointers to all the variables which describe the scene
-    Camera* cam;
-    Scene myScene;
-    //Create Scene Geometry and Illumiantion
-    //buildSceneSphere(cam, film, myScene); //Task 2,3,4;
-    buildSceneCornellBox(cam, film, myScene); //Task 5
-
-    //---------------------------------------------------------------------------
-
-    //Paint Image ONLY TASK 1
-    //PaintImage(film);
-
-    // Launch some rays! TASK 2,3,...   
-    auto start = high_resolution_clock::now();
-    raytrace(cam, whittedShader, film, myScene.objectsList, myScene.LightSourceList);
-    auto stop = high_resolution_clock::now();
-
-    
-
-    // Save the final result to file
-    std::cout << "\n\nSaving the result to file output.bmp\n" << std::endl;
-    film->save();
-    film->saveEXR();
-
-    float durationS = (durationMs(stop - start) / 1000.0).count() ;
-    std::cout <<  "FINAL_TIME(s): " << durationS << std::endl;
+        // Launch some rays! TASK 2,3,...   
+        auto start = high_resolution_clock::now();
+        if (choice!=1) raytrace(cam, shader, film, myScene.objectsList, myScene.LightSourceList);
+        auto stop = high_resolution_clock::now();
 
 
-    std::cout << "\n\n" << std::endl;
-    return 0;
+        // Save the final result to file
+        std::cout << "\n\nSaving the result to file output.bmp\n" << std::endl;
+        film->save();
+        film->saveEXR();
+
+        float durationS = (durationMs(stop - start) / 1000.0).count();
+        std::cout << "FINAL_TIME(s): " << durationS << std::endl;
+
+
+        std::cout << "\n\n" << std::endl;
+    }
 }
