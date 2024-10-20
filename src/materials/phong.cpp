@@ -21,8 +21,9 @@ Vector3D Phong::getReflectance(const Vector3D& n, const Vector3D& wo,
     // First we compute the ideal reflection direction with the formula
     Vector3D wr = n * 2 * dot(n, wi) - wi; // we do this order to avoid c++ bugs
 
-    Vector3D diffuse = (rho_d / M_PI); // Diffuse color
-    Vector3D specular = Ks * pow(dot(wo, wr), alpha);
+	Vector3D diffuse = (rho_d / M_PI); // Diffuse color, substituted rho_d for Kd in LAB2
+	double new_param_lab2 = 2 * M_PI / (alpha + 1); // New parameter for the Phong model
+    Vector3D specular =  Ks * pow(dot(wo, wr), alpha) * new_param_lab2;
     Vector3D reflectance = diffuse + specular;
 
     return reflectance;

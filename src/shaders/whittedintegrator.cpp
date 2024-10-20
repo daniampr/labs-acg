@@ -30,6 +30,39 @@ Vector3D WhittedIntegrator::computeColor(const Ray& r, const std::vector<Shape*>
 			return reflectedColor;
         }
 
+        else if (its.shape->getMaterial().hasTransmission()) {
+            //First we need to know if the ray is changing the medium from eta1 to eta2
+            //To this end we have to check if we are inside or outside the sphere. 
+            //We know it for the dot product. 
+            Vector3D wo = -r.d;
+            double eta_mat = its.shape->getMaterial().getIndexOfRefraction();
+            Vector3D normal = its.normal;
+            //Check is we are inside
+            if (dot(r.d, normal) > 0.0) {
+                eta_mat = 1.0 / eta_mat; //If we are inside we compute the inverse of the density fraction
+                normal = -normal;
+            }
+            double radicant = 1.0 - eta_mat * eta_mat * (1 - std::pow(dot(wo, normal), 2));
+            if (radicant >= 0) {
+                double parentesis = eta_mat * dot(normal, wo) - sqrt(radicant);
+                Vector3D T = -wo * eta_mat + normal * parentesis;
+                Ray ray_refraction;
+                ray_refraction.o = its.itsPoint;
+                ray_refraction.d = T.normalized();
+                ray_refraction.depth = r.depth + 1;
+
+                return computeColor(ray_refraction, objList, lsList);
+            }
+            else {//Total internal reflection, the readicant does not exist
+                Ray ray_reflection;
+                ray_reflection.o = its.itsPoint;
+                Vector3D wr = normal * 2 * (dot(normal, wo)) - wo;
+                ray_reflection.d = wr.normalized();
+                ray_reflection.depth = r.depth + 1;
+                return computeColor(ray_reflection, objList, lsList);
+            }
+        }
+
 		// When the material is not specular, check if it has a diffuse or glossy component
 		// Compute the direct ilumination using the Phong model -- 5.2
         else if (material->hasDiffuseOrGlossy()) {
