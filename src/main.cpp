@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <conio.h>
 
 #include "core/film.h"
 #include "core/matrix4x4.h"
@@ -19,6 +20,7 @@
 #include "shaders/normalshader.h"
 #include "shaders/whittedintegrator.h"
 #include "shaders/hdishader.h"
+#include "shaders/adishader.h"
 
 
 #include "materials/phong.h"
@@ -288,8 +290,10 @@ void DisplayMenu() {
     std::cout << "4. Task 4: Normal Integrator\n";
     std::cout << "5. Task 5: Whitted Integrator - Direct Ilumination & Mirror Material\n";
 	std::cout << " ------  LAB 2 TASKS -------------------\n";
-	std::cout << "6. Task 1: HDI Shader - Direct Ilumination & Mirror Material\n";
-	std::cout << "7. Exit\n";
+	std::cout << "6. Task 1: Hemispherical Direct Illumination Shader\n";
+	std::cout << "7. Task 2: Area Direct Illumination Shader\n";
+	std::cout << "-------------------------------------------\n";
+	std::cout << "ESC. Exit\n";
     std::cout << "-------------------------------------------\n";
     std::cout << "Enter your choice (1-7): ";
 }
@@ -324,37 +328,50 @@ int main()
         DisplayMenu();
 
         // Get user input
-        std::cin >> choice;
+        char input = _getch();  // Use _getch() to capture special keys like 'Esc'
 
-        switch (choice) {
-        case 1:
+        switch (input) {
+        case '1':
             buildSceneSphere(cam, film, myScene); //Task 2,3,4;
             PaintImage(film);  // Task 1
+            choice = 1;
             break;
-        case 2:
+        case '2':
             buildSceneSphere(cam, film, myScene); //Task 2,3,4
+            choice = 2;
             break;
-        case 3:
+        case '3':
             intersectionColor = Vector3D(0.0, 1.0, 0.0);
             shader = new DepthShader(intersectionColor, 7.5f, bgColor);
             buildSceneSphere(cam, film, myScene); //Task 2,3,4;
+            choice = 3;
             break;
 
-        case 4:
+        case '4':
             shader = new NormalShader(intersectionColor, bgColor);
             buildSceneSphere(cam, film, myScene); //Task 2,3,4;
+            choice = 4;
             break;
 
-        case 5:
+        case '5':
             shader = new WhittedIntegrator(bgColor);
             buildSceneCornellBox(cam, film, myScene); //Task 5
+			choice = 5;
             break;
 
-        case 6:
+        case '6':
             shader = new HDIShader();
             buildSceneCornellBox_lab2(cam, film, myScene); //Task 2 lab2
+			choice = 6;
             break;
-        case 7:
+
+        case '7':
+            shader = new ADIShader();
+            buildSceneCornellBox_lab2(cam, film, myScene); //Task 2 lab2
+            choice = 7;
+            break;
+
+        case 27:  // ASCII value of 'Esc' is 27
             std::cout << "Exiting the program...\n";
             return 0;  // Exit the loop and program
         default:

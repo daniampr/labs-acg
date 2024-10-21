@@ -33,6 +33,8 @@ public:
         return myAreaLightsource->normal;
     };
 
+    Vector3D generateRandomPoint() const;
+
 private:
     Square* myAreaLightsource;
 };

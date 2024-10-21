@@ -14,7 +14,7 @@ bool Mirror::hasTransmission() const
 
 bool Mirror::hasDiffuseOrGlossy() const
 {
-    return true;
+    return false;
 }
 
 bool Mirror::isEmissive() const
