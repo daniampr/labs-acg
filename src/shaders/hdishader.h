@@ -14,9 +14,7 @@ public:
 	virtual Vector3D computeColor(const Ray& r,
 		const std::vector<Shape*>& objList,
 		const std::vector<LightSource*>& lsList) const;
-	virtual Vector3D computeColor_v2(const Ray& r,
-		const std::vector<Shape*>& objList,
-		const std::vector<LightSource*>& lsList) const;
+
 	HemisphericalSampler hemisphericalSampler = HemisphericalSampler();
 };
 

@@ -111,7 +111,22 @@
     <ClCompile Include="..\..\src\core\scene.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\shaders\normalShader.cpp">
+    <ClCompile Include="..\..\src\shaders\normalshader.cpp">
+      <Filter>src\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\shaders\whittedintegrator.cpp">
+      <Filter>src\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\materials\mirror.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\shaders\hdishader.cpp">
+      <Filter>src\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\materials\transmissive.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\shaders\adishader.cpp">
       <Filter>src\shaders</Filter>
     </ClCompile>
   </ItemGroup>
@@ -197,7 +212,22 @@
     <ClInclude Include="..\..\src\lightsources\lightsource.h">
       <Filter>src\lightsources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\shaders\normalShader.h">
+    <ClInclude Include="..\..\src\shaders\normalshader.h">
+      <Filter>src\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\shaders\whittedintegrator.h">
+      <Filter>src\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\materials\mirror.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\shaders\hdishader.h">
+      <Filter>src\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\materials\transmissive.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\shaders\adishader.h">
       <Filter>src\shaders</Filter>
     </ClInclude>
   </ItemGroup>

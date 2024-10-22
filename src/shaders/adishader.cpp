@@ -52,19 +52,19 @@ Vector3D ADIShader::computeColor(const Ray& r, const std::vector<Shape*>& objLis
 
             for (LightSource* light : lsList) {
                 AreaLightSource* area_light = dynamic_cast<AreaLightSource*>(light);
-                double area = area_light->getArea();
+                double area = light->getArea();
                 double probability = 1 / area;
                 Le = light->getIntensity(); // L_e(y_i)
                 n_y = light->getNormal();
                 for (int i = 1; i < N; i++) {
-                    Vector3D random_point = area_light->sampleLightPosition();  // y_i: Random point in the light source
+                    Vector3D random_point = light->sampleLightPosition();  // y_i: Random point in the light source
                     wj = random_point - its.itsPoint; //Incident light direction
 					wj_normalized = wj.normalized();
                     double distance = wj.lengthSq();
                     double geometric_term = ((dot(wj_normalized, n) * dot(-wj_normalized, n_y))) / distance;
                     Vector3D reflectance = its.shape->getMaterial().getReflectance(n, wj_normalized, wo.normalized()); //Using the formula from the Phong model
                     //Check if the point is visible
-                    Ray shadowRay = Ray(its.itsPoint, wj, 0, Epsilon);
+                    Ray shadowRay = Ray(its.itsPoint, wj_normalized, 0, Epsilon, wj.length());
                     bool not_visible = Utils::hasIntersection(shadowRay, objList);
                     if (not_visible) Li = 0;
                     else Li = Le * reflectance * dot(wj_normalized, n) * geometric_term / probability;
