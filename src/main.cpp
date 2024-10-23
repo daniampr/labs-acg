@@ -254,6 +254,7 @@ void raytrace(Camera* &cam, Shader* &shader, Film* &film,
 }
 
 
+
 //------------TASK 1---------------------//
 void PaintImage(Film* film)
 {
@@ -381,6 +382,11 @@ int main()
 
         // Launch some rays! TASK 2,3,...   
         auto start = high_resolution_clock::now();
+        
+        // Print the number of light sources in our list
+        std::cout << "Number of light sources: " << myScene.LightSourceList->size() << std::endl;
+
+
         if (choice!=1) raytrace(cam, shader, film, myScene.objectsList, myScene.LightSourceList);
         auto stop = high_resolution_clock::now();
 

@@ -129,6 +129,12 @@
     <ClCompile Include="..\..\src\shaders\adishader.cpp">
       <Filter>src\shaders</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\shaders\pathtracingshader.cpp">
+      <Filter>src\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\shaders\pathtracinghader.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\cameras\camera.h">
@@ -228,6 +234,9 @@
       <Filter>src\materials</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\shaders\adishader.h">
+      <Filter>src\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\shaders\pathtracinghader.h">
       <Filter>src\shaders</Filter>
     </ClInclude>
   </ItemGroup>
