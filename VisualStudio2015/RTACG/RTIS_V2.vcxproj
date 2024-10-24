@@ -170,7 +170,6 @@
     <ClCompile Include="..\..\src\shaders\hdishader.cpp" />
     <ClCompile Include="..\..\src\shaders\intersectionshader.cpp" />
     <ClCompile Include="..\..\src\shaders\normalshader.cpp" />
-    <ClCompile Include="..\..\src\shaders\pathtracinghader.cpp" />
     <ClCompile Include="..\..\src\shaders\pathtracingshader.cpp" />
     <ClCompile Include="..\..\src\shaders\shader.cpp" />
     <ClCompile Include="..\..\src\shaders\whittedintegrator.cpp" />

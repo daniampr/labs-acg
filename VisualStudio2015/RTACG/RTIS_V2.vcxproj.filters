@@ -132,9 +132,6 @@
     <ClCompile Include="..\..\src\shaders\pathtracingshader.cpp">
       <Filter>src\shaders</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\shaders\pathtracinghader.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\cameras\camera.h">
@@ -236,8 +233,8 @@
     <ClInclude Include="..\..\src\shaders\adishader.h">
       <Filter>src\shaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\shaders\pathtracinghader.h">
-      <Filter>src\shaders</Filter>
+    <ClInclude Include="..\..\src\shaders\pathtracingshader.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

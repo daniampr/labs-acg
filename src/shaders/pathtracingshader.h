@@ -27,7 +27,7 @@ public:
     virtual void raytrace(Camera*& cam, Shader*& shader, Film*& film,
         std::vector<Shape*>*& objectsList, std::vector<LightSource*>*& lightSourceList) const;
     int maxDepth = 4;
-    int N = 50; // Samples per pixel
+    int N = 256; // Samples per pixel
 	double pdf = 1 / (2 * M_PI);
     HemisphericalSampler hemisphericalSampler = HemisphericalSampler();
     Vector3D &pixelColor = Vector3D(0.0);
