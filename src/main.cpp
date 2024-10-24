@@ -332,52 +332,53 @@ int main()
         DisplayMenu();
 
         // Get user input
-        char input = _getch();  // Use _getch() to capture special keys like 'Esc'
+        std::cin >> choice;;  // Use _getch() to capture special keys like 'Esc'
 
-        switch (input) {
-        case '1':
+        switch (choice) {
+        case 1:
             buildSceneSphere(cam, film, myScene); //Task 2,3,4;
             PaintImage(film);  // Task 1
             choice = 1;
             break;
-        case '2':
+        case 2:
             buildSceneSphere(cam, film, myScene); //Task 2,3,4
             choice = 2;
             break;
-        case '3':
+        case 3:
             intersectionColor = Vector3D(0.0, 1.0, 0.0);
             shader = new DepthShader(intersectionColor, 7.5f, bgColor);
             buildSceneSphere(cam, film, myScene); //Task 2,3,4;
             choice = 3;
             break;
 
-        case '4':
+        case 4:
             shader = new NormalShader(intersectionColor, bgColor);
             buildSceneSphere(cam, film, myScene); //Task 2,3,4;
             choice = 4;
             break;
 
-        case '5':
+        case 5:
             shader = new WhittedIntegrator(bgColor);
             buildSceneCornellBox(cam, film, myScene); //Task 5
 			choice = 5;
             break;
 
-        case '6':
+        case 6:
             shader = new HDIShader();
             buildSceneCornellBox_lab2(cam, film, myScene); //Task 2 lab2
 			choice = 6;
             break;
 
-        case '7':
+        case 7:
             shader = new ADIShader();
             buildSceneCornellBox_lab2(cam, film, myScene); //Task 2 lab2
             choice = 7;
             break;
 
-        case '8':
+        case 8:
             shader = new PathTracingShader();
             buildSceneCornellBox_lab2(cam, film, myScene); //task 3 lab2
+            dynamic_cast<PathTracingShader*>(shader)->raytrace(cam, shader, film, myScene.objectsList, myScene.LightSourceList);
             choice = 8;
             break;
 
@@ -385,7 +386,7 @@ int main()
             std::cout << "Exiting the program...\n";
             return 0;  // Exit the loop and program
         default:
-            std::cout << "Invalid choice. Please enter a number between 1 and 6.\n";
+            std::cout << "Invalid choice. Please enter a number between 1 and 8.\n";
         }
 
 
@@ -396,7 +397,7 @@ int main()
         std::cout << "Number of light sources: " << myScene.LightSourceList->size() << std::endl;
 
 
-        if (choice!=1) raytrace(cam, shader, film, myScene.objectsList, myScene.LightSourceList);
+        if (choice!=1 && choice!= 8) raytrace(cam, shader, film, myScene.objectsList, myScene.LightSourceList);
         auto stop = high_resolution_clock::now();
 
 

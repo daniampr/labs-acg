@@ -44,35 +44,36 @@ Vector3D PathTracingShader::computeColor(const Ray& r, const std::vector<Shape*>
 
 
 
-//
-//void PathTracingShader::raytrace(Camera*& cam, Shader*& shader, Film*& film, std::vector<Shape*>*& objectsList, std::vector<LightSource*>*& lightSourceList) const {
-//    size_t resX = film->getWidth();
-//    size_t resY = film->getHeight();
-//    int ssp = N;  // Samples per pixel
-//
-//    // Main raytracing loop
-//    for (size_t lin = 0; lin < resY; lin++) {
-//        for (size_t col = 0; col < resX; col++) {
-//            Vector3D pixelColor = Vector3D(0.0);  // Initialize pixel color outside the sampling loop
-//
-//            // Accumulate color over multiple samples per pixel
-//            for (int i = 0; i < ssp; i++) {
-//                // Compute the pixel position in NDC with jittering for anti-aliasing
-//                double x = (double)(col + 0.5) / resX;
-//                double y = (double)(lin + 0.5) / resY;
-//
-//                // Generate the camera ray
-//                Ray cameraRay = cam->generateRay(x, y);
-//
-//                // Accumulate color from the current sample
-//                pixelColor += shader->computeColor(cameraRay, *objectsList, *lightSourceList);
-//            }
-//
-//            // Average the color over the number of samples
-//            pixelColor /= (double)ssp;
-//
-//            // Store the averaged pixel color in the film
-//            film->setPixelValue(col, lin, pixelColor);
-//        }
-//    }
-//}
+
+void PathTracingShader::raytrace(Camera*& cam, Shader*& shader, Film*& film, std::vector<Shape*>*& objectsList, std::vector<LightSource*>*& lightSourceList) const {
+    size_t resX = film->getWidth();
+    size_t resY = film->getHeight();
+    int ssp = N;  // Samples per pixel
+
+    // Main raytracing loop
+    for (size_t lin = 0; lin < resY; lin++) {
+        for (size_t col = 0; col < resX; col++) {
+            Vector3D pixelColor = Vector3D(0.0);  // Initialize pixel color outside the sampling loop
+            double progress = (double)lin / double(resY);
+            Utils::printProgress(progress);
+            // Accumulate color over multiple samples per pixel
+            for (int i = 0; i < ssp; i++) {
+                // Compute the pixel position in NDC with jittering for anti-aliasing
+                double x = (double)(col + 0.5) / resX;
+                double y = (double)(lin + 0.5) / resY;
+
+                // Generate the camera ray
+                Ray cameraRay = cam->generateRay(x, y);
+
+                // Accumulate color from the current sample
+                pixelColor += shader->computeColor(cameraRay, *objectsList, *lightSourceList);
+            }
+
+            // Average the color over the number of samples
+            pixelColor /= (double)ssp;
+
+            // Store the averaged pixel color in the film
+            film->setPixelValue(col, lin, pixelColor);
+        }
+    }
+}
