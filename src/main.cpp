@@ -21,6 +21,8 @@
 #include "shaders/whittedintegrator.h"
 #include "shaders/hdishader.h"
 #include "shaders/adishader.h"
+#include "shaders/pathtracingshader.h"
+
 
 
 #include "materials/phong.h"
@@ -293,10 +295,11 @@ void DisplayMenu() {
 	std::cout << " ------  LAB 2 TASKS -------------------\n";
 	std::cout << "6. Task 1: Hemispherical Direct Illumination Shader\n";
 	std::cout << "7. Task 2: Area Direct Illumination Shader\n";
+    std::cout << "8. Task 3: Pure Path Tracing\n";
 	std::cout << "-------------------------------------------\n";
 	std::cout << "ESC. Exit\n";
     std::cout << "-------------------------------------------\n";
-    std::cout << "Enter your choice (1-7): ";
+    std::cout << "Enter your choice (1-8): ";
 }
 
 
@@ -370,6 +373,12 @@ int main()
             shader = new ADIShader();
             buildSceneCornellBox_lab2(cam, film, myScene); //Task 2 lab2
             choice = 7;
+            break;
+
+        case '8':
+            shader = new PathTracingShader();
+            buildSceneCornellBox_lab2(cam, film, myScene); //task 3 lab2
+            choice = 8;
             break;
 
         case 27:  // ASCII value of 'Esc' is 27

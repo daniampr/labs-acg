@@ -26,8 +26,8 @@ public:
     // Main function to trace rays and accumulate color for each pixel
     virtual void raytrace(Camera*& cam, Shader*& shader, Film*& film,
         std::vector<Shape*>*& objectsList, std::vector<LightSource*>*& lightSourceList) const;
-    int maxDepth = 4;
-    int N = 256; // Samples per pixel
+    int maxDepth = 5;
+    int N = 100; // Samples per pixel
 	double pdf = 1 / (2 * M_PI);
     HemisphericalSampler hemisphericalSampler = HemisphericalSampler();
 

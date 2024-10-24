@@ -207,7 +207,7 @@
     <ClInclude Include="..\..\src\shaders\hdishader.h" />
     <ClInclude Include="..\..\src\shaders\intersectionshader.h" />
     <ClInclude Include="..\..\src\shaders\normalshader.h" />
-    <ClInclude Include="..\..\src\shaders\pathtracinghader.h" />
+    <ClInclude Include="..\..\src\shaders\pathtracingshader.h" />
     <ClInclude Include="..\..\src\shaders\shader.h" />
     <ClInclude Include="..\..\src\shaders\whittedintegrator.h" />
     <ClInclude Include="..\..\src\shapes\infiniteplan.h" />
